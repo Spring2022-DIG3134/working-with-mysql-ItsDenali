@@ -1,17 +1,8 @@
 <?php
-    // Server
     $server = "localhost";
-
-    // Username
     $username = "root";
-
-    // Password
     $password = "";
-
-    // Database
     $database = "sales";
-
-    // Global connection
     $connection = null;
 
     function connect() {
@@ -21,52 +12,52 @@
         global $database;
         global $connection;
 
-        // Is $connection null?
-        // If so, connect to the database server.
-        // If not, do nothing (because the connection already exists).
+        //Checks for connection, connects if not already
         if($connection == null) {
             $connection = mysqli_connect($server, $username, $password, $database);
         }
     }
 
     function salesTable() {
-        // Use global $connection locally.
         global $connection;
 
-         // Is $connection null?
-         // If so, do nothing (because a connection has not been made yet).
+        //Checks connection, does nothing if already connected.
         if($connection != null) {
-            // Get the results of a query using the connection
-            // TODO: Write SQL SELECT statement to read first name, last name, city, and state.
-            $results = mysqli_query($connection, "TODO");
+            
+            //Get the results of a query using the connection
+            //Read first name, last name, city, and state.
+            $results = mysqli_query($connection, "SELECT first_name, last_name, city, state FROM `customers`");
 
-            // Start the HTML table.
+            //HTML Table.
             echo("<table><tbody>");
+            echo("<th>First Name: </th>");
+            echo("<th>Last Name: </th>");
+            echo("<th>City: </th>");
+            echo("<th>State: </th>");
 
-            // For every row, generate a new HTML row.
+            //Generates a new row for each HTML Row.
             while($row = mysqli_fetch_assoc($results)) {
-                // Start the row.
+                
                 echo("<tr>");
 
-                // TODO: for each key, add a column entry in HTML using echo().
-                // Reminder: HTML tables use <td> (https://developer.mozilla.org/en-US/docs/Web/HTML/Element/table#examples).
-                
-                // End the row.
+                    //Adds an HTML using collumn for each entry using echo().
+                    echo("<td>".$row['first_name']."</td>");
+                    echo("<td>".$row['last_name']."</td>");
+                    echo("<td>".$row['city']."</td>");
+                    echo("<td>".$row['state']."</td>");
+
                 echo("</tr>");
             }
-
-            // End the HTML table.
             echo("</tbody></table>");
         }
     }
 
     function close() {
-        // Use the global $connection locally.
         global $connection;
 
-        // Unlike connect(), we test for a value *not* equal to null.
+        //Is connection *not* null?
         if($connection != null) {
-            // Close the connection.
+            //If so, close the connection.
             mysqli_close($connection);
         }
     } 
