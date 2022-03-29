@@ -1,4 +1,5 @@
 <?php
+
     $server = "localhost";
     $username = "root";
     $password = "";
@@ -61,4 +62,56 @@
             mysqli_close($connection);
         }
     } 
+//
+
+
+//----------
+//----------
+//--Lab 8---
+//----------
+//----------
+
+
+function updateTable() {
+        // Use the global $connection.
+        global $connection;
+        // Perform validation.
+        // (1) Do the keys exist?
+        if(isset($_POST["customer_id"]) &&
+           isset($_POST["first_name"]) &&
+           isset($_POST["last_name"]) &&
+           isset($_POST["city"]) &&
+           isset($_POST["state"])) {
+
+            // (2) Confirm the values.
+            // Convert string input (to prevent injection attacks).
+            $firstName = htmlspecialchars($_POST["first_name"]);
+            $lastName = htmlspecialchars($_POST["last_name"]);
+            $state = htmlspecialchars($_POST["state"]);
+            $city = htmlspecialchars($_POST["city"]);
+            // With type="number", this will probably be a number,
+            //  but, just to be sure, use intval() to force a conversion.
+            $customerId = intval($_POST["customer_id"]);
+
+            // Is $connection null?
+            // If so, do nothing.
+            if($connection != null) {
+                // Using the $connection, insert data into the database.
+                $results = mysqli_query($connection, "INSERT INTO customers (customer_id, first_name, last_name, city, state) VALUES({$customerId}, '{$firstName}', '{$lastName}', '{$city}', '{$state}')");
+            }
+        }
+    }
 ?>
+
+
+
+
+
+
+
+
+
+
+<!-- <?php
+    
+?> -->
